@@ -1,0 +1,60 @@
+﻿@model EditViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit Article</h2>
+<hr />
+@if (ViewData["error"] is not null)
+{
+    <div class="text-danger">@ViewData["error"]</div>
+    <hr />
+}
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ArticlePictureName" />
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control" style="width:100%; height:150px;"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <label class="control-label" asp-for="ArticlePicture"></label>
+            <div class="custom-file">
+                <input class="custom-file-input" asp-for="ArticlePicture" id="customFile" />
+                <label class="custom-file-input" for="customFile">
+                    @(string.IsNullOrEmpty(Model.ArticlePictureName) ? "Choose File" : Model.GetArticlePictureName())
+                </label>
+                <span asp-validation-for="ArticlePicture" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group float-right mt-4">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+            <a asp-controller="Home" asp-action="Profile" class="btn btn-primary">
+                <i class="fas fa-fast-backward"></i> Back to List
+            </a>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

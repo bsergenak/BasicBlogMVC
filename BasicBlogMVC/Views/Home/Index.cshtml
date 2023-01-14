@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Http
+@model List<ArticleViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="~/css/article-list.css" rel="stylesheet" />
+
+<div class="container">
+    <h2 class="text-center">Last Article</h2>
+    @if (TempData["message"] is not null)
+    {
+        <div class="text-success">@TempData["message"]</div>
+    }
+    @if (TempData["error"] is not null)
+    {
+        <div class="text-danger">@TempData["error"]</div>
+    }
+    @if (!string.IsNullOrEmpty(Context.Session.GetString("userId")))
+    {
+        <div style="float-right">
+            <a class="btn btn-outline-success" asp-controller="Article" asp-action="Create" asp-route-yonlen="Home/Index">
+                <i class="fas fa-plus">&nbsp;&nbsp;Create</i>
+            </a>
+        </div>
+    }
+    <br>
+    <br>
+    @if (Model is null || Model.Count == 0)
+    {
+        <h2 class="text-center article-panel brick">There isn't any data</h2>
+    }
+    else
+    {
+        foreach (ArticleViewModel article in Model)
+        {
+            <div class="row mb-2 p-1 article-panel">
+                <div class="col col-9">
+                    <div class="row">
+                        <div class="col col-4">
+                            <a asp-controller="Home" asp-action="Profile" asp-route-username="@article.AuthorName" class="black action">
+                                <div class="row"><b>Author:</b> &nbsp; @article.AuthorName</div>
+                            </a>
+                            <div class="row">
+                                <img src="~/images/@article.ArticlePicture" alt="Alternate Text" style="object-fit:contain; max-width:200px; max-height:150px;">
+                            </div>
+                        </div>
+                        <div class="col col-8">
+                            <a asp-controller="Home" asp-action="Overview" asp-route-id="@article.Id" class="black action">
+                                <div class="row"><b>Title:</b> &nbsp; @article.Title </div>
+                                <div class="row"><b>Content:</b> &nbsp; @article.GetContentSummary()</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-3">
+                    <div class="row"><b>Created at: </b> &nbsp; @article.GetCreatedTime()</div>
+                    <br>
+                    <div class="row float-right mt-5 mr-4">
+                        @if (article.AuthorId.ToString().Equals(Context.Session.GetString("userId")))
+                        {
+                            <a class="btn btn-sm btn-outline-warning" asp-controller="Article" asp-action="Delete" asp-route-id="@article.Id">
+                                <i class="far fa-edit">&nbsp;&nbsp;Edit</i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger ml-2" asp-controller="Article" asp-action="Delete" asp-route-id="@article.Id">
+                                <i class="fas fa-ban">&nbsp;&nbsp;Delete</i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+</div>

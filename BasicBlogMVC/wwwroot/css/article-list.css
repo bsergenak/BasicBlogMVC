@@ -1,0 +1,24 @@
+﻿.article-panel {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.maxwidth {
+    max-width: 100%;
+}
+
+.maxheight {
+    max-height: 100%;
+}
+
+.black {
+    color: black !important;
+}
+
+.brick {
+    color: firebrick !important;
+}
+
+.action:hover {
+    color: blue !important;
+}

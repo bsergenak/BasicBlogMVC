@@ -1,0 +1,41 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<link href="~/css/auth.css" rel="stylesheet" />
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="https://www.kindpng.com/picc/m/24-248394_user-icon-hd-png-download.png" id="icon" alt="User Icon" />
+            <br />
+            <h2 style="margin:0px;">Register</h2>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (TempData["message"] is not null)
+        {
+            <div class="text-success">@TempData["message"]</div>
+        }
+
+        <!-- Register Form -->
+        <form asp-action="Register">
+            <input asp-for="Username" class="fadeIn second" placeholder="Username" />
+            <br />
+            <span asp-validation-for="Username" class="text-danger"></span>
+
+            <input asp-for="Password" class="fadeIn third" placeholder="Password" />
+            <br />
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <input type="submit" value="Register" class="fadeIn fourth" />
+        </form>
+
+        @*Already have an account?*@
+        <div id="formFooter">
+            <a asp-action="Login" asp-controller="Auth" class="underlineHover">Already have an account?</a>
+        </div>
+    </div>
+</div>
